@@ -9,6 +9,11 @@ const Fs = require("fs");
 
 app.use(express.json());
 
+setupDir("./images");
+function setupDir(dir) {
+  if (!Fs.existsSync(dir)) Fs.mkdirSync(dir);
+}
+
 const getData = async url => {
   try {
     const response = await axios.get(url);
@@ -98,6 +103,7 @@ app.delete("/api/user/:userId/avatar", async (req, res) => {
 });
 
 // ## Part two - implement a CRON job to scrap the users (IIFE)
+setupDir("./api");
 (function scrap() {
   let page = 1;
   let usersList, retrievedUsers, url, data;
